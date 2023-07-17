@@ -31,7 +31,7 @@ class Data:
             return file_dict.get("patrol_id")
     @staticmethod
     def update_patrol_ID():
-        prev_patrol_ID = int(get_patrol_ID())
+        prev_patrol_ID = int(Data.get_patrol_ID())
         with open("history.json", "w") as file:
             new_dict = {
                 "patrol_id": prev_patrol_ID + 1
