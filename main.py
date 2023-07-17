@@ -3,7 +3,6 @@ from components.select_district import Select_District
 from discord import ButtonStyle, Interaction
 from discord.ui import Button, View
 
-
 @bot.event
 async def on_ready():
     print("CSA Sheriffs Department Secretary Bot is up and running!")

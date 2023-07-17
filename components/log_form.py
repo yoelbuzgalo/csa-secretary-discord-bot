@@ -1,7 +1,7 @@
 import time
 from discord.ui import Modal, TextInput
 from discord import Interaction, TextStyle
-# from data import Data
+from data import Data
 
 
 # Log Form Class is inherited by Modal class imported w/ discord package, it reads all created class variables and appends the inherited modal class children.
@@ -81,8 +81,8 @@ class Log_Form(Modal):
             except ValueError as error:
                 await interaction.response.send_message(f"Invalid input for kills")
                 return
-        # data = Data(name=self.name.value, unit_number=self.unit_number.value, start_time=self.start_time.value, end_time=self.end_time.value, total_kills=self.total_kills.value)
-        # await data.submit_confirmation()
+        data = Data(discord_user=interaction.user, district=self.district,name=self.name.value, unit_number=self.unit_number.value, start_time=self.start_time.value, end_time=self.end_time.value, total_kills=self.total_kills.value)
+        await data.submit_confirmation()
         await interaction.response.send_message(
             f"Recorded, thank you for submitting your patrol log {self.name}"
         )
