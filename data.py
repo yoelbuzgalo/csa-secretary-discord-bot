@@ -15,24 +15,26 @@ class Data:
     async def submit_confirmation(self):
         self.channel = bot.get_channel(channel_id)
         self.embedded_patrol_log = Embed(
-            title=f"📋Patrol Log #{get_patrol_ID()}",
+            title=f"📋Patrol Log #{self.get_patrol_ID()}",
             description=f"{self.discord_user} has submitted a patrol log!",
         )
         self.embedded_patrol_log.add_field(name="Claimed Unit Number", value=self.unit_number)
         self.embedded_patrol_log.add_field(name="District", value=self.district)
         await self.channel.send(embed=self.embedded_patrol_log)
-        update_patrol_ID()
-        get_patrol_ID()
+        self.update_patrol_ID()
 
-def get_patrol_ID():
-    with open("history.json", "r") as file:
-        file_dict = json.loads(file.read())
-        return file_dict.get("patrol_id")
-
-def update_patrol_ID():
-    prev_patrol_ID = int(get_patrol_ID())
-    with open("history.json", "w") as file:
-        new_dict = {
-            "patrol_id": prev_patrol_ID + 1
-        }
-        file.write(json.dumps(new_dict))
+    @staticmethod
+    def get_patrol_ID():
+        with open("history.json", "r") as file:
+            file_dict = json.loads(file.read())
+            file.close()
+            return file_dict.get("patrol_id")
+    @staticmethod
+    def update_patrol_ID():
+        prev_patrol_ID = int(get_patrol_ID())
+        with open("history.json", "w") as file:
+            new_dict = {
+                "patrol_id": prev_patrol_ID + 1
+            }
+            file.write(json.dumps(new_dict))
+            file.close()
