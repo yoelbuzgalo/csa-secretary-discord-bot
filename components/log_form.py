@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 from discord.ui import Modal, TextInput
 from discord import Interaction, TextStyle
 from data import Data
@@ -27,62 +28,52 @@ class Log_Form(Modal):
         style=TextStyle.short,
     )
     start_time = TextInput(
-        label="Start Time (hh:mm)",
+        label="Start Time (GMT/UTC)",
         required=True,
-        placeholder="Example: 02:20",
+        placeholder="hh:mm",
         min_length=5,
         max_length=5,
         style=TextStyle.short,
     )
     end_time = TextInput(
-        label="End Time (hh:mm)",
+        label="End Time (GMT/UTC)",
         required=True,
-        placeholder="Example: 04:30",
+        placeholder="hh:mm",
         min_length=5,
         max_length=5,
         style=TextStyle.short,
     )
     total_kills = TextInput(
-        label="Total Kills/Arrests",
+        label="Screenshot Links",
         required=False,
-        placeholder="(Optional)",
-        min_length=0,
-        max_length=3,
-        style=TextStyle.short,
+        placeholder="Attach screenshot links so that we can update the registry of your patrol logs, kills and arrests",
+        style=TextStyle.paragraph,
     )
-
     async def on_submit(self, interaction: Interaction):
         # Checks if the unit number is integers only
         try:
             int(self.unit_number.value)
         except ValueError:
             await interaction.response.send_message(
-                "Invalid unit number input, please try again"
+                "```diff\n-Error: Invalid unit number input```Please try again"
             )
             return
         # Checks if the time input is valid format
         try:
-            time.strptime(self.start_time.value, "%H:%M")
-            time.strptime(self.end_time.value, "%H:%M")
+            t1 = time.strptime(self.start_time.value, "%H:%M")
+            t2 = time.strptime(self.end_time.value, "%H:%M")
+            if (t2.tm_hour*60+t2.tm_min) - (t1.tm_hour*60+t1.tm_min) <= 0:
+                raise Exception("```diff\n-Error: Invalid time input, end time must be greater than start time```Please try again")
         except ValueError:
             await interaction.response.send_message(
-                "One of your time inputs are entered incorrectly, please try again"
+                "```diff\n-Error: One of your time inputs are entered incorrectly```Please try again"
             )
             return
-        # Check total kills if it is an integer only,
-        if self.total_kills.value:
-            try:
-                num = int(self.total_kills.value)
-                if num > 0:
-                    await interaction.response.send_message(
-                        "Please attach your screenshots of every round so that we can verify and record your kills"
-                    )
-                    return
-            except ValueError as error:
-                await interaction.response.send_message(f"Invalid input for kills")
-                return
+        except Exception as e:
+            await interaction.response.send_message(e)
+            return
         data = Data(discord_user=interaction.user, district=self.district,name=self.name.value, unit_number=self.unit_number.value, start_time=self.start_time.value, end_time=self.end_time.value, total_kills=self.total_kills.value)
         await data.submit_confirmation()
         await interaction.response.send_message(
-            f"Recorded, thank you for submitting your patrol log {self.name}"
+            f"```diff\n+Success: Thank you for submitting your patrol log {interaction.user}```"
         )

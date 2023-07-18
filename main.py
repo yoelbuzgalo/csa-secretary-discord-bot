@@ -26,7 +26,7 @@ async def handle_log_request(interaction: Interaction):
     else:
         await interaction.response.send_message("Thank you for requesting a patrol log form!")
     await user.send(
-        f"Hello {user}!\nPlease be advised that this is a CSA sheriff discord bot. Any fraudulent or misuse of this tool is forbidden and can be reviewed by CSA sheriff officers.\nAcknowledging that, what would you like to do?",
+        f"Hello **{user}**!\nPlease be advised that this is a CSA sheriff discord bot. Any fraudulent or misuse of this tool is forbidden and can be reviewed by CSA sheriff officers.\n\n**All patrol logs must be submitted on the same day of your patrol, it cannot be submitted at a later date.**\n\nAcknowledging that, what would you like to do?",
         view=view,
     )
 
