@@ -2,7 +2,6 @@ import discord
 from discord import SelectOption, Interaction
 from discord.ui import View, Select
 from components.log_form import Log_Form
-from data import Data
 
 
 class Select_District(View):
