@@ -7,6 +7,7 @@ from discord import Intents
 config = dotenv_values(".env")
 token = config.get('TOKEN')
 channel_id = int(config.get('CHANNEL_ID'))
+server_id = int(config.get('SERVER_ID'))
 
 # Creates and configures the Discord client
 intents = Intents.all()
