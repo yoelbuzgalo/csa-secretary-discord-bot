@@ -272,6 +272,7 @@ cython_debug/
 # History json file,
 
 history.json
+service_account_credentials.json
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

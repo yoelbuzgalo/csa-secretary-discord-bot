@@ -1,6 +1,8 @@
-from config import bot, channel_id
+from config import bot, channel_id, sheet
 from discord import Embed
 import json
+
+print(sheet.sheet1.get('A1'))
 
 class Data:
     def __init__(self, discord_user: str,district: str, name: str, unit_number: int, start_time: str, end_time: str, total_kills: int = None):
