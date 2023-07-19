@@ -2,17 +2,15 @@ from config import bot, channel_id, sheet
 from discord import Embed
 import json
 
-print(sheet.sheet1.get('A1'))
-
 class Data:
-    def __init__(self, discord_user: str,district: str, name: str, unit_number: int, start_time: str, end_time: str, total_kills: int = None):
+    def __init__(self, discord_user: str,district: str, name: str, unit_number: int, start_time: str, end_time: str, screenshots: str):
         self.discord_user = discord_user
         self.district = district
         self.name = name
         self.unit_number = unit_number
         self.start_time = start_time
         self.end_time = end_time
-        self.total_kills = total_kills
+        self.screenshots = screenshots
     # Sends to the channel ID specified in config a message when a form is submitted
     async def submit_confirmation(self):
         self.channel = bot.get_channel(channel_id)
@@ -23,6 +21,7 @@ class Data:
         self.embedded_patrol_log.add_field(name="Claimed Unit Number", value=self.unit_number)
         self.embedded_patrol_log.add_field(name="District", value=self.district)
         await self.channel.send(embed=self.embedded_patrol_log)
+        self.submit_to_sheet()
         self.update_patrol_ID()
 
     @staticmethod
@@ -40,3 +39,10 @@ class Data:
             }
             file.write(json.dumps(new_dict))
             file.close()
+
+    def submit_to_sheet(self):
+        my_sheet = sheet.sheet1
+        row = len(my_sheet.get_all_records())
+        print(row)
+        arr = [self.get_patrol_ID(), self.discord_user, self.district, self.name, self.unit_number, self.start_time, self.end_time, self.screenshots]
+        my_sheet.update('A2:H2', [arr])

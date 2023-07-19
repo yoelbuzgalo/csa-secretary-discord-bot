@@ -42,9 +42,9 @@ class Log_Form(Modal):
         max_length=5,
         style=TextStyle.short,
     )
-    total_kills = TextInput(
+    screenshots = TextInput(
         label="Screenshot Links",
-        required=False,
+        required=True,
         placeholder="Attach screenshot links so that we can update the registry of your patrol logs, kills and arrests",
         style=TextStyle.paragraph,
     )
@@ -71,7 +71,9 @@ class Log_Form(Modal):
         except Exception as e:
             await interaction.response.send_message(e)
             return
-        data = Data(discord_user=interaction.user, district=self.district,name=self.name.value, unit_number=self.unit_number.value, start_time=self.start_time.value, end_time=self.end_time.value, total_kills=self.total_kills.value)
+        print(f'This one is pure object? {interaction.user}')
+        print(f'This one is stringified {str(interaction.user)}')
+        data = Data(discord_user=str(interaction.user), district=self.district,name=self.name.value, unit_number=self.unit_number.value, start_time=self.start_time.value, end_time=self.end_time.value, screenshots=self.screenshots.value)
         await data.submit_confirmation()
         await interaction.response.send_message(
             f"```diff\n+Success: Thank you for submitting your patrol log {interaction.user}```"
