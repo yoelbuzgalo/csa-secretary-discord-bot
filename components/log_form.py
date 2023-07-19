@@ -71,8 +71,6 @@ class Log_Form(Modal):
         except Exception as e:
             await interaction.response.send_message(e)
             return
-        print(f'This one is pure object? {interaction.user}')
-        print(f'This one is stringified {str(interaction.user)}')
         data = Data(discord_user=str(interaction.user), district=self.district,name=self.name.value, unit_number=self.unit_number.value, start_time=self.start_time.value, end_time=self.end_time.value, screenshots=self.screenshots.value)
         await data.submit_confirmation()
         await interaction.response.send_message(
