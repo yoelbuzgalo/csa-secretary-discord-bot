@@ -14,7 +14,6 @@ intents = Intents.all()
 intents.message_content = True
 bot = commands.Bot(command_prefix="/", intents=intents)
 
-
 # Google service account configuration
 gc = gspread.service_account(filename="./service_account_credentials.json")
 sheet = gc.open("Testing")

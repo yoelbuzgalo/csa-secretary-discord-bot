@@ -11,3 +11,9 @@ To use this bot, you will need to do the following:
 service_account_credentials.json
 
 For more information, read here: https://docs.gspread.org/en/v5.10.0/oauth2.html#enable-api-access
+
+3. Add .env file to the root directory with three variables:
+
+TOKEN=...
+CHANNEL_ID=...
+SERVER_ID=...
